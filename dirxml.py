@@ -2,7 +2,7 @@
 """
 Author   : Evan Young
 Date     : 01/08/2018
-Revision : 01/09/2018
+Revision : 01/11/2018
 """
 
 import os
@@ -16,7 +16,7 @@ parser.add_argument('-v', nargs = '?', type = bool, const = True, default = Fals
 parser.add_argument('-m', nargs = '?', type = bool, const = True, default = False, metavar = 'minify', help = 'Makes the xml file as small as possible')
 parser.add_argument('-o', nargs = '?', type = bool, const = True, default = False, metavar = 'open', help = 'Open the xml file when complete')
 args = parser.parse_args()
-args.path = args.path[:-1] if args.path.endswith('/') else args.path
+args.path = args.path[:-1] if args.path.endswith('/') or args.path.endswith('\\') else args.path
 
 lend = '' if args.m else '\n'
 lpre = '' if args.m else '   '
@@ -24,7 +24,7 @@ out = open(os.path.join(os.path.dirname(os.path.realpath(__file__)), f'{os.path.
 out.write(f'<?xml version="1.0" encoding="utf-8" ?>{lend}')
 
 def dirXML(path):
-   ret = f'<dir name={quoteattr(os.path.basename(path))}>{lend}'
+   ret = f'<dir name={quoteattr(os.path.basename(path))} permissions={quoteattr(oct(os.stat(path).st_mode & 0o0777)[-3:])}>{lend}'
 
    for i in os.listdir(path):
       ip = os.path.join(path, i)
@@ -33,7 +33,8 @@ def dirXML(path):
          ret += lend
       elif (os.path.isfile(ip)):
          attrs = {
-            "name": i
+            "name": i,
+            "permissions": oct(os.stat(os.path.join(path, i)).st_mode & 0o0777)[-3:]
          }
          dt = 0
          if (i.startswith('.')):
