@@ -2,7 +2,7 @@
 """
 Author   : Evan Young
 Date     : 01/08/2018
-Revision : 01/09/2018
+Revision : 01/16/2018
 """
 
 import os
@@ -24,7 +24,6 @@ lvloff = getDirLevel(args.path) - 1
 for (root, dirs, fils) in os.walk(args.path):
    lvl = getDirLevel(root) - lvloff
    out.write(f"{(lvl - 1) * args.s}{root.split(os.path.sep)[-1]}\n")
-   for f in fils:
-      out.write(f"{lvl * args.s}{f}\n")
+   [out.write(f"{lvl * args.s}{f}\n") for f in fils]
 
 out.close()
