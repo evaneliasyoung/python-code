@@ -2,7 +2,7 @@
 """
 Author   : Evan Young
 Date     : 11/28/2016
-Revision : 01/10/2018
+Revision : 01/21/2018
 """
 
 import re
@@ -18,6 +18,7 @@ class color:
       self.rgb = self.getRGB()
       self.hsl = self.getHSL()
       self.hsv = self.getHSV()
+
    def getHex(self):
       if (self.isFullHex):
          return self._raw.lstrip('#')
@@ -26,9 +27,11 @@ class color:
       elif (self.isRGB):
          prgb = re.split('(?:rgb)?(?:\()?(\d+), ?(\d+), ?(\d+)(?:\))?', self._raw)[1:4]
          return ''.join([f'{int(d):02X}' for d in prgb])
+
    def getRGB(self):
       li = [int(self.hex[i:i+2], 16) for i in [0, 2, 4]]
       return li
+
    def getHSL(self):
       tmp = [p / 255 for p in self.rgb]
       mn = min(tmp)
@@ -48,6 +51,7 @@ class color:
          h /= 6
 
       return [h, s, l]
+
    def getHSV(self):
       tmp = [p / 255 for p in self.rgb]
       mn = min(tmp)
@@ -64,8 +68,6 @@ class color:
          elif (mx == tmp[2]): h = (tmp[0] - tmp[1]) / d + 4
       h /= 6
       return [h, s, v]
-
-
 
 if __name__ == '__main__':
    print('Hello Console!')

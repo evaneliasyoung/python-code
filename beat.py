@@ -2,7 +2,7 @@
 """
 Author   : Evan Young
 Date     : 07/30/2016
-Revision : 01/10/2018
+Revision : 01/21/2018
 """
 
 from datetime import datetime as dt
@@ -16,4 +16,4 @@ def __init__():
 
 if __name__ == '__main__':
    print('Hello Console!')
-   print(f'@{beats:.0f}')
+   print(f'@{__init__():.0f}')
