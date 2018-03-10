@@ -2,7 +2,7 @@
 """
 Author   : Evan Young
 Date     : 01/08/2018
-Revision : 02/10/2018
+Revision : 03/10/2018
 """
 
 import os
@@ -15,11 +15,12 @@ parser.add_argument('path', metavar='path', help='The starting path')
 parser.add_argument('-v', nargs='?', type=bool, const=True, default=False, metavar='verbose', help='Print the xml file in the terminal')
 parser.add_argument('-m', nargs='?', type=bool, const=True, default=False, metavar='minify', help='Makes the xml file as small as possible')
 parser.add_argument('-o', nargs='?', type=bool, const=True, default=False, metavar='open', help='Open the xml file when complete')
+parser.add_argument('--folders', nargs='?', type=bool, const=True, default=False, metavar='folders', help='Only list folders')
 args = parser.parse_args()
 args.path = args.path[:-1] if args.path.endswith('/') or args.path.endswith('\\') else args.path
 
 lend = '' if args.m else '\n'
-lpre = '' if args.m else '   '
+lpre = '' if args.m else '  '
 out = open(os.path.join(os.path.dirname(os.path.realpath(__file__)), f'{os.path.basename(args.path)}{".min" if args.m else ""}.xml'), 'w', encoding='utf-8', newline='\n')
 out.write(f'<?xml version="1.0" encoding="utf-8" ?>{lend}')
 
@@ -41,7 +42,7 @@ def dirXML(path):
         if (os.path.isdir(ip)):
             ret += lend.join([f'{lpre}{li}' for li in dirXML(os.path.join(path, i)).split('\n')[:-1]])
             ret += lend
-        elif (os.path.isfile(ip)):
+        elif (os.path.isfile(ip) and not args.folders):
             attrs = {
                 "name": i,
                 "permissions": oct(os.stat(os.path.join(path, i)).st_mode & 0o0777)[-3:]
