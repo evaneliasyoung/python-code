@@ -30,23 +30,22 @@ if args.o:
     out_path = os.path.dirname(os.path.abspath(__file__))
 
 if args.n:
-    chars.extend(range(10))
+    chars.extend([str(i) for i in range(10)])
 if args.l:
-    chars.extend([c for c in asciiLetters])
+    chars.extend(asciiLetters)
 if args.c:
     chars.extend(['~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', '{', ']', '}', '\\', ';', ':', '\'', '"', ',', '<', '.', '>', '/', '?'])
 
 if not args.n and not args.l and not args.c:
-    chars.extend(['~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', '{', ']', '}', '\\', ';', ':', '\'', '"', ',', '<', '.', '>', '/', '?'])
+    chars.extend(asciiLetters)
+    chars.extend([str(i) for i in range(10)])
 # </region>
 
 # <region> Main
-for i in range(args.le):
-    key.append(random.choice(chars))
+key = [random.choice(chars) for i in range(args.le)]
 
 if (args.o):
-    with open('ket.txt', 'w') as f:
-        f.write(''.join(key))
+    open('key.txt', 'w').write(''.join(key))
 else:
     print(''.join(key))
 # </region>

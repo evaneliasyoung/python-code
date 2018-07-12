@@ -37,13 +37,11 @@ def decode(s):
         string: The original string.
 
     """
-    ret = ''
-    for w in s.split(' '):
-        ret += w[0]
-    return ret
+    ret = [w[0] for w in s.split(' ')]
+    return ''.join(ret)
 
 
 if __name__ == '__main__':
     print('Hello Console!')
-    print(encode('My name is evan'))
+    print(encode('My name is Evan'))
     print(decode('Mike Yankee November Alpha Mike Echo India Sierra Echo Victor Alpha November'))
