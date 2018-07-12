@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 07/27/2015
-Revision : 02/10/2018
+Date     : 2018-07-27
+Revision : 2018-07-12
 """
 
 from string import ascii_lowercase as shorts

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 03/31/2017
-Revision : 02/10/2018
+Date     : 2017-03-31
+Revision : 2018-07-12
 """
 
 import itertools as ite
@@ -12,11 +12,11 @@ def parsePunnet(mat, pat):
     """Will parse a punnet square for two genomes.
 
     Args:
-        mat (type): Description of parameter `mat`.
-        pat (type): Description of parameter `pat`.
+        mat (string): The mother's alleles.
+        pat (string): The father's alleles.
 
     Returns:
-        type: Description of returned object.
+        List: The mixed alleles.
 
     """
     raw = [''.join(p) for p in ite.permutations(mat + pat, 2)]
@@ -28,6 +28,6 @@ def parsePunnet(mat, pat):
 
 if __name__ == '__main__':
     print('Hello Console!')
-    mat = input("Mother Alleles (Aa): ")
-    pat = input("Father Alleles (Aa): ")
+    mat = input('Mother Alleles (Aa): ')
+    pat = input('Father Alleles (Aa): ')
     print(parsePunnet(mat, pat))

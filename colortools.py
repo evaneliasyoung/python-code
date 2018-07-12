@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 11/28/2016
-Revision : 02/10/2018
+Date     : 2016-11-28
+Revision : 2018-07-12
 """
 
 import re
@@ -51,7 +51,7 @@ class color:
             list: The red, green, and blue values.
 
         """
-        li = [int(self.hex[i:i+2], 16) for i in [0, 2, 4]]
+        li = [int(self.hex[i:i + 2], 16) for i in [0, 2, 4]]
         return li
 
     def getHSL(self):
@@ -67,7 +67,7 @@ class color:
 
         l = (mx + mn) / 2
         if (mx == mn):
-            h, s = [0] * 2
+            h, s = [0, 0]
         else:
             d = mx - mn
             s = d / (2 - mx - mn) if l > 0.5 else d / (mx + mn)

@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 01/08/2018
-Revision : 03/10/2018
+Date     : 2018-01-08
+Revision : 2018-07-12
 """
 
 import os
 from sys import platform
 import argparse
 from xml.sax.saxutils import quoteattr
+
 
 parser = argparse.ArgumentParser(description='Tree a directory into an xml file')
 parser.add_argument('path', metavar='path', help='The starting path')

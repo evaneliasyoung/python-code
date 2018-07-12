@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 11/04/2017
-Revision : 02/10/2018
+Date     : 2017-11-04
+Revision : 2018-07-12
 """
 
 import webbrowser as web

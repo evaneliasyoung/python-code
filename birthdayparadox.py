@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 07/18/2017
-Revision : 02/10/2018
+Date     : 2017-07-18
+Revision : 2018-07-12
 """
 
 import matplotlib.pyplot as plt
@@ -33,10 +33,10 @@ setprec().prec = 1000
 plot = 0
 
 if(plot):
-    ln = 366+1
+    ln = 366 + 1
     data = [getPerc(i) for i in range(ln)]
     x = range(ln)
-    y = [d*100 for d in data]
+    y = [d * 100 for d in data]
 
     fig = plt.figure()
     ax = plt.subplot2grid((1, 1), (0, 0))

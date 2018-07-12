@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 02/10/2018
-Revision : 02/10/2018
+Date     : 2018-02-10
+Revision : 2018-07-12
 """
 
 import random

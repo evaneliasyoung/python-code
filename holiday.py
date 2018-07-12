@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 03/01/2018
-Revision : 03/01/2018
+Date     : 2018-03-01
+Revision : 2018-07-12
 """
 
 import requests as req

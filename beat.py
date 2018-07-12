@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 07/30/2016
-Revision : 02/10/2018
+Date     : 2016-07-30
+Revision : 2018-07-12
 """
 
 from datetime import datetime as dt

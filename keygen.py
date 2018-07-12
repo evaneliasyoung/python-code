@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Author   : Evan Young
-Date     : 08/12/2015
-Revision : 02/10/2018
+Date     : 2015-08-12
+Revision : 2018-07-12
 """
 
 # <region> Modules
