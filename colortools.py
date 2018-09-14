@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Author   : Evan Young
+Author   : Evan Elias Young
 Date     : 2016-11-28
-Revision : 2018-07-12
+Revision : 2018-09-13
 """
 
 import re

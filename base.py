@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Author   : Evan Young
+Author   : Evan Elias Young
 Date     : 2018-07-12
-Revision : 2018-07-12
+Revision : 2018-09-13
 """
 from string import digits, ascii_letters
 base64 = f'{digits}{ascii_letters}-_'
@@ -26,7 +26,7 @@ def decode(num, base=base64):
 
     for i in range(0, len(rev)):
         mult = mx**i
-        val += base.index(rev[i])*mult
+        val += base.index(rev[i]) * mult
     return val
 
 

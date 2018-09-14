@@ -1,55 +1,58 @@
 #!/usr/bin/env python3
 """
-Author   : Evan Young
+Author   : Evan Elias Young
 Date     : 2017-07-12
-Revision : 2018-07-12
+Revision : 2018-09-13
 """
 
 import tarfile
+import sys
 import os
 from lzma import PRESET_EXTREME
 
 
-def getParentDir(src):
-    """Will get the directory above the given directory.
+def compressFolder(basedir, basename):
+    """Compresses a folder to a .tar.xz.
 
     Args:
-        src (string): The directory to look above.
-
-    Returns:
-        string: The parent of the given directory.
+        basedir (string): The basedir of the folder to compress.
+        basename (string): The basename of the folder to compress.
 
     """
-    if (src == '/'):
-        par = '/'
-    else:
-        par = '/'.join(src.split('/')[:-1])
-    par += '/'
-    return par
+    os.chdir(basedir)
+    with tarfile.open(f'{basename}.tar.xz', 'w:xz', preset=PRESET_EXTREME) as tar:
+        tar.add(basename)
 
 
-if __name__ == '__main__':
-    print('Hello Console!')
-    src = input('Enter the path to the directory you are compressing (/var/www)\n')
-    if (not os.path.isdir(src)):
-        raise Exception('NOENT')
-    src = src.replace(os.sep, '/')
-    basenm = os.path.basename(src)
-    par = getParentDir(src)
-    os.chdir(par)
+def decompressTar(basedir, basename):
+    """Decompresses a .tar.xz to a folder.
 
-    ext = -1
-    while ext not in range(3):
-        ext = input('Enter the compression format\n[1] gzip\n[2] bzip2\n[3] xz\n')
-        try:
-            ext = int(ext) - 1
-        except:
-            ext = -1
-    ext = ['gz', 'bz2', 'xz'][ext]
+    Args:
+        basedir (string): The basedir of the .tar.xz to expand.
+        basename (string): The basename of the .tar.xz to expand.
 
-    if (ext == 'xz'):
-        with tarfile.open(f'{basenm}.tar.{ext}', f'w:{ext}', preset=PRESET_EXTREME) as tar:
-            tar.add(basenm)
-    else:
-        with tarfile.open(f'{basenm}.tar.{ext}', f'w:{ext}', compresslevel=9) as tar:
-            tar.add(basenm)
+    Returns:
+        type: Description of returned object.
+
+    """
+    basename = basename.replace('.tar.xz', '')
+
+    os.chdir(basedir)
+    with tarfile.open(f'{basename}.tar.xz', 'r:xz') as tar:
+        tar.extractall('.')
+
+
+args = sys.argv[1:]
+if (len(args) == 0):
+    raise Exception('NOENT')
+else:
+    path = args[0]
+
+basedir = os.path.dirname(path)
+basename = os.path.basename(path)
+
+if (os.path.isdir(path)):
+    compressFolder(basedir, basename)
+
+if (os.path.isfile(path) and path.endswith('.tar.xz')):
+    decompressTar(basedir, basename)
