@@ -2,14 +2,16 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-11-04
-Revision : 2018-09-13
+Revision : 2019-12-12
 """
+
 
 import webbrowser as web
 from copy import deepcopy as copy
+from typing import List
 
 
-def openBrowsers(raw, st='Missouri'):
+def openBrowsers(raw: str, st: str = 'Missouri') -> None:
     """Will open the browser to the correct sites.
 
     Args:
@@ -17,8 +19,8 @@ def openBrowsers(raw, st='Missouri'):
         st (string): The state of residence. Defaults to 'Missouri'.
 
     """
-    full = raw.title().split(' ')
-    short = copy(full)
+    full: List[str] = raw.title().split(' ')
+    short: List[str] = copy(full)
     if(len(short) == 3):
         short.remove(short[1])
 

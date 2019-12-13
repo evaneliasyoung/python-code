@@ -2,15 +2,17 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-10-25
-Revision : 2018-09-13
+Revision : 2019-12-12
 """
+
 
 import requests as req
 from bs4 import BeautifulSoup as bs
 from random import choice
+from typing import Tuple
 
 
-def getFact(fact):
+def getFact(fact: int) -> Tuple[int, str]:
     """Will fetch a fact from a fact number.
 
     Args:

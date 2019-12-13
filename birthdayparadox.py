@@ -2,16 +2,18 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-07-18
-Revision : 2018-09-13
+Revision : 2019-12-12
 """
 
+
 import matplotlib.pyplot as plt
-from decimal import getcontext as setprec, Decimal as dec
+from decimal import getcontext as setprec, Decimal
 from math import factorial as fct
 from random import randint as rng
+from typing import List
 
 
-def getPerc(p):
+def getPerc(p: int) -> float:
     """Will calculate the percent chance of matching birthdays.
 
     Args:
@@ -22,19 +24,19 @@ def getPerc(p):
 
     """
     if(p > 365):
-        return dec(1 - 0)
-    fracTop = dec(fct(365))
-    fracBot = dec((365 ** p) * fct(365 - p))
+        return Decimal(1 - 0)
+    fracTop: Decimal = Decimal(fct(365))
+    fracBot: Decimal = Decimal((365 ** p) * fct(365 - p))
 
-    return 1 - dec(fracTop / fracBot)
+    return 1 - Decimal(fracTop / fracBot)
 
 
 setprec().prec = 1000
-plot = 0
+plot: bool = 0
 
 if(plot):
-    ln = 366 + 1
-    data = [getPerc(i) for i in range(ln)]
+    ln: int = 367
+    data: List[float] = [getPerc(i) for i in range(ln)]
     x = range(ln)
     y = [d * 100 for d in data]
 

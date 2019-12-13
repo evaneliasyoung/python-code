@@ -2,18 +2,22 @@
 """
 Author   : Evan Elias Young
 Date     : 2018-07-27
-Revision : 2018-09-13
+Revision : 2019-12-12
 """
 
+
 from string import ascii_lowercase as shorts
-longs = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot',
-         'Golf', 'Hotel', 'India', 'Juliett', 'Kilo', 'Lima',
-         'Mike', 'November', 'Oscar', 'Papa', 'Quebec', 'Romeo',
-         'Sierra', 'Tango', 'Uniform', 'Victor', 'Whiskey',
-         'X-ray', 'Yankee', 'Zulu']
+from typing import List
 
 
-def encode(s):
+longs: List[str] = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot',
+                    'Golf', 'Hotel', 'India', 'Juliett', 'Kilo', 'Lima',
+                    'Mike', 'November', 'Oscar', 'Papa', 'Quebec', 'Romeo',
+                    'Sierra', 'Tango', 'Uniform', 'Victor', 'Whiskey',
+                    'X-ray', 'Yankee', 'Zulu']
+
+
+def encode(s: str) -> str:
     """Will encode a string into NATO speak.
 
     Args:
@@ -23,11 +27,11 @@ def encode(s):
         string: The NATO speak.
 
     """
-    ret = [longs[shorts.index(c)] for c in s.lower() if c in shorts]
+    ret: List[str] = [longs[shorts.index(c)] for c in s.lower() if c in shorts]
     return ' '.join(ret)
 
 
-def decode(s):
+def decode(s: str) -> str:
     """Will decode NATO speak into a string.
 
     Args:
@@ -37,11 +41,12 @@ def decode(s):
         string: The original string.
 
     """
-    ret = [w[0] for w in s.split(' ')]
+    ret: List[str] = [w[0] for w in s.split(' ')]
     return ''.join(ret)
 
 
 if __name__ == '__main__':
     print('Hello Console!')
     print(encode('My name is Evan'))
-    print(decode('Mike Yankee November Alpha Mike Echo India Sierra Echo Victor Alpha November'))
+    print(decode(
+        'Mike Yankee November Alpha Mike Echo India Sierra Echo Victor Alpha November'))
