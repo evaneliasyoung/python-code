@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-09-06
-Revision : 2019-12-12
+Revision : 2019-12-14
 """
 
 
@@ -10,21 +10,6 @@ import requests as req
 from bs4 import BeautifulSoup as bs
 from datetime import date
 from dateutil.relativedelta import relativedelta as datedelta
-
-
-def zeroPad(n: int) -> str:
-    """Will pad a number to two digits.
-
-    Args:
-        n (integer): The number to pad.
-
-    Returns:
-        string: The zero-padded number.
-
-    """
-    if(n < 10):
-        pre = '0'
-    return f'{pre}{n}'
 
 
 def askForPast() -> str:
@@ -35,10 +20,10 @@ def askForPast() -> str:
 
     """
     year: int = int(input('Year (after 1912): '))
-    if(year <= 1912 or year >= date.today().year):
+    if year <= 1912 or year >= date.today().year:
         exit()
     month: int = 1
-    return f'{year}{zeroPad(month)}'
+    return f'{year}{month:0>2}'
 
 
 def getInflation(amt: float, then: str) -> float:
@@ -53,18 +38,22 @@ def getInflation(amt: float, then: str) -> float:
 
     """
     d: date = date.today() - datedelta(months=2)
-    now: str = f'{d.year}{zeroPad(d.month)}'
-    print(
-        f'https://data.bls.gov/cgi-bin/cpicalc.pl?cost1={amt}&year1={then}&year2={now}')
+    now: str = f'{d.year}{d.month:0>2}'
     res = req.get(
         f'https://data.bls.gov/cgi-bin/cpicalc.pl?cost1={amt}&year1={then}&year2={now}')
     soup = bs(res.text, 'html.parser')
     ans: str = soup.find(id='answer').string
-    return float(ans)
+    return float(ans[1:].replace(',', ''))
 
 
 if __name__ == '__main__':
+    from random import randint
+
     print('Hello Console!')
-    amt: float = round(float(input('Amount: ')), 1)
-    then: str = askForPast()
-    print(getInflation(amt, then))
+
+    amt: float = randint(0, 1000) + (randint(0, 99) / 100)
+    now: int = date.today().year
+    yr: int = randint(1913, now - 1)
+    then: str = f'{yr}01'
+    print(f'{yr} -> {now}')
+    print(f'${amt:0.2f} -> ${getInflation(amt, then):0.2f}')

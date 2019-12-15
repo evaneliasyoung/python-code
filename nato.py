@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2018-07-27
-Revision : 2019-12-12
+Revision : 2019-12-14
 """
 
 
@@ -47,6 +47,7 @@ def decode(s: str) -> str:
 
 if __name__ == '__main__':
     print('Hello Console!')
+
     print(encode('My name is Evan'))
     print(decode(
         'Mike Yankee November Alpha Mike Echo India Sierra Echo Victor Alpha November'))

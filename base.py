@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2018-07-12
-Revision : 2019-12-12
+Revision : 2019-12-14
 """
 
 
@@ -54,5 +54,6 @@ def encode(num: int, base: str = base64) -> str:
 
 if __name__ == '__main__':
     print('Hello Console!')
+
     print(encode(20000727))
     print(decode('1ci_n'))

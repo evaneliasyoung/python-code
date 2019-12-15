@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-03-31
-Revision : 2019-12-12
+Revision : 2019-12-14
 """
 
 
@@ -31,6 +31,7 @@ def parsePunnet(mat: str, pat: str) -> List[str]:
 
 if __name__ == '__main__':
     print('Hello Console!')
+
     mat = input('Mother Alleles (Aa): ')
     pat = input('Father Alleles (Aa): ')
     print(parsePunnet(mat, pat))

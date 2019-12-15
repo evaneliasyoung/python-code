@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-11-04
-Revision : 2019-12-12
+Revision : 2019-12-14
 """
 
 
@@ -24,7 +24,7 @@ def openBrowsers(raw: str, st: str = 'Missouri') -> None:
     if(len(short) == 3):
         short.remove(short[1])
 
-    url = [
+    url: List[str] = [
         f'https://www.spokeo.com/{"-".join(short)}/{st}',
         f'https://www.truepeoplesearch.com/results?name={"%20".join(full)}&citystatezip={st}',
         f'https://www.intelius.com/people-search/{"-".join(full)}/{st}',

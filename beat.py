@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2016-07-30
-Revision : 2019-12-12
+Revision : 2019-12-14
 """
 
 
@@ -22,4 +22,5 @@ def __init__() -> float:
 
 if __name__ == '__main__':
     print('Hello Console!')
+
     print(f'@{__init__():.0f}')

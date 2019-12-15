@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2018-03-01
-Revision : 2019-12-12
+Revision : 2019-12-14
 """
 
 
@@ -44,5 +44,6 @@ for d in days:
 
 if __name__ == '__main__':
     print('Hello Console!')
+
     for i in range(now.day, fut.day if now.month == fut.month else mran(now.year, now.month)[1]):
         print(i, evnts[i])

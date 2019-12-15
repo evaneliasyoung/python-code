@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2016-11-28
-Revision : 2019-12-12
+Revision : 2019-12-14
 """
 
 
@@ -116,6 +116,7 @@ class Color:
 
 if __name__ == '__main__':
     print('Hello Console!')
+
     fav: Color = Color('#003366')
     print(f'hex : {fav.hex}')
     print(f'rgb : {fav.rgb}')

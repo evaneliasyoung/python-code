@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2018-02-10
-Revision : 2018-09-13
+Revision : 2019-12-14
 """
 
 import random
@@ -31,4 +31,5 @@ def randomize(steps: int = 20) -> List[str]:
 
 if __name__ == '__main__':
     print('Hello Console!')
+
     print(' '.join(randomize()))

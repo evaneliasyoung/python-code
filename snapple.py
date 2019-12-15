@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-10-25
-Revision : 2019-12-12
+Revision : 2019-12-14
 """
 
 
@@ -30,4 +30,5 @@ def getFact(fact: int) -> Tuple[int, str]:
 
 if __name__ == '__main__':
     print('Hello Console!')
+
     print(getFact(-1))
