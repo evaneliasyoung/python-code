@@ -2,63 +2,63 @@
 """
 Author   : Evan Elias Young
 Date     : 2016-11-28
-Revision : 2019-12-14
+Revision : 2020-03-08
 """
-
 
 import re
 from typing import List, Tuple
 
 
 class Color:
+    """Represents a color object which contains multiple conversions.
+
+    Returns:
+        Color -- A color object.
+    """
     def __init__(self, color: str) -> None:
-        """Will create a color object which contains multiple conversions.
-
-        Args:
-            color (string): The color, available in many formats.
-
-        Returns:
-            color: A color object.
-
-        """
         self._raw: str = color
-        self.isFullHex: bool = bool(re.match('#?[0-9A-f]{6}', self._raw))
-        self.isShortHex: bool = bool(re.match('^#?[0-9A-f]{3}$', self._raw))
-        self.isRGB: bool = bool(
-            re.match('(rgb)?\(?(\d+, ?){2}\d+\)?', self._raw))
-        self.isRGBA: bool = bool(
-            re.match('(rgba)?\(?(\d+, ?){3}\d+\)?', self._raw))
-        self.hex: str = self.getHex()
-        self.rgb: Tuple[float, float, float] = self.getRGB()
-        self.hsl: Tuple[float, float, float] = self.getHSL()
-        self.hsv: Tuple[float, float, float] = self.getHSV()
+        self.hex_type = 'full' if re.match(
+            '#?[0-9A-f]{6}', self._raw) else 'short' if re.match(
+                '^#?[0-9A-f]{3}$', self._raw) else 'none'
+        self.is_rgb: bool = bool(
+            re.match('(rgb)?\\(?(\\d+, ?){2}\\d+\\)?', self._raw))
+        self.hex: str = self.get_hex()
+        self.rgb: Tuple[float, float, float] = self.get_rgb()
+        self.hsl: Tuple[float, float, float] = self.get_hsl()
+        self.hsv: Tuple[float, float, float] = self.get_hsv()
 
-    def getHex(self) -> str:
+    def get_hex(self) -> str:
         """Will calculate the hex form.
 
         Returns:
             string: The long form hex color.
 
         """
-        if (self.isFullHex):
-            return self._raw.lstrip('#')
-        elif (self.isShortHex):
-            return ''.join([c * 2 for c in self._raw.lstrip('#')])
+        long_hex: str = ''
+        if self.hex_type == 'full':
+            long_hex = self._raw.lstrip('#')
+        elif self.hex_type == 'short':
+            long_hex = ''.join([c * 2 for c in self._raw.lstrip('#')])
         else:
-            prgb = re.split(
-                '(?:rgb)?(?:\()?(\d+), ?(\d+), ?(\d+)(?:\))?', self._raw)[1:4]
-            return ''.join([f'{int(d):02X}' for d in prgb])
+            prgb = re.split('(?:rgb)?(?:\\()?(\\d+), ?(\\d+), ?(\\d+)(?:\\))?',
+                            self._raw)[1:4]
+            long_hex = ''.join([f'{int(d):02X}' for d in prgb])
+        return long_hex
 
-    def getRGB(self) -> Tuple[int, int, int]:
+    def get_rgb(self) -> Tuple[int, int, int]:
         """Will calculate the rgb form.
 
         Returns:
             list: The red, green, and blue values.
 
         """
-        return (int(self.hex[0:2], 16), int(self.hex[2:4], 16), int(self.hex[4:6], 16), )
+        return (
+            int(self.hex[0:2], 16),
+            int(self.hex[2:4], 16),
+            int(self.hex[4:6], 16),
+        )
 
-    def getHSL(self) -> Tuple[float, float, float]:
+    def get_hsl(self) -> Tuple[float, float, float]:
         """Will calculate the hsl form.
 
         Returns:
@@ -66,29 +66,29 @@ class Color:
 
         """
         tmp: List[float] = [p / 255 for p in self.rgb]
-        mn: float = min(tmp)
-        mx: float = max(tmp)
+        min_rgb: float = min(tmp)
+        max_rgb: float = max(tmp)
+        delta: float = max_rgb - min_rgb
 
-        l: float = (mx + mn) / 2
-        h: float = 0
-        s: float = 0
-        d: float = 0
-        if (mx != mn):
-            d = mx - mn
-            s = d / (2 - mx - mn) if l > 0.5 else d / (mx + mn)
+        light: float = (max_rgb + min_rgb) / 2
+        hue: float = 0
+        sat: float = 0
+        if max_rgb != min_rgb:
+            sat = delta / (2 - max_rgb - min_rgb) if light > 0.5 else delta / (
+                max_rgb + min_rgb)
 
-            if (mx == tmp[0]):
-                h = (tmp[1] - tmp[2]) / d + (6 if tmp[1] < tmp[2] else 0)
-            elif (mx == tmp[1]):
-                h = (tmp[2] - tmp[0]) / d + 2
-            elif (mx == tmp[2]):
-                h = (tmp[0] - tmp[1]) / d + 4
+            if max_rgb == tmp[0]:
+                hue = (tmp[1] - tmp[2]) / delta + (6 if tmp[1] < tmp[2] else 0)
+            elif max_rgb == tmp[1]:
+                hue = (tmp[2] - tmp[0]) / delta + 2
+            elif max_rgb == tmp[2]:
+                hue = (tmp[0] - tmp[1]) / delta + 4
 
-            h /= 6
+            hue /= 6
 
-        return (h, s, l)
+        return (hue, sat, light)
 
-    def getHSV(self) -> Tuple[float, float, float]:
+    def get_hsv(self) -> Tuple[float, float, float]:
         """Will calculate the hsv form.
 
         Returns:
@@ -96,22 +96,22 @@ class Color:
 
         """
         tmp: List[float] = [p / 255 for p in self.rgb]
-        mn: float = min(tmp)
-        mx: float = max(tmp)
+        min_rgb: float = min(tmp)
+        max_rgb: float = max(tmp)
+        delta: float = max_rgb - min_rgb
 
-        v: float = mx
-        d: float = mx - mn
-        s: float = 0 if mx == 0 else d // mx
-        h: float = 0
-        if (mx != mn):
-            if (mx == tmp[0]):
-                h = (tmp[1] - tmp[2]) / d + (6 if tmp[1] < tmp[2] else 0)
-            elif (mx == tmp[1]):
-                h = (tmp[2] - tmp[0]) / d + 2
-            elif (mx == tmp[2]):
-                h = (tmp[0] - tmp[1]) / d + 4
-        h /= 6
-        return (h, s, v)
+        val: float = max_rgb
+        sat: float = 0 if max_rgb == 0 else delta // max_rgb
+        hue: float = 0
+        if max_rgb != min_rgb:
+            if max_rgb == tmp[0]:
+                hue = (tmp[1] - tmp[2]) / delta + (6 if tmp[1] < tmp[2] else 0)
+            elif max_rgb == tmp[1]:
+                hue = (tmp[2] - tmp[0]) / delta + 2
+            elif max_rgb == tmp[2]:
+                hue = (tmp[0] - tmp[1]) / delta + 4
+        hue /= 6
+        return (hue, sat, val)
 
 
 if __name__ == '__main__':

@@ -5,13 +5,11 @@ Date     : 2020-03-08
 Revision : 2020-03-08
 """
 
-
-import requests
 import json
-import argparse
 from datetime import datetime as dt
+import argparse
 from typing import List, Dict, Union, Any
-
+import requests
 
 # The max length for the type printer.
 MAX_TYPE_LEN: int = 6
@@ -45,48 +43,66 @@ assert LINE_LENGTH <= 79, f'the sum of the field sizes is too big: {LINE_LENGTH}
 
 
 class WrapperNotDefined(Exception):
-    pass
+    """Represents the exception for when an iTunes wrapper in undefined.
+    """
 
 
-class iTunesArtist:
+class Artist:
+    """Represents an iTunes Artist.
+
+    Returns:
+        Artist -- An iTunes Artist object.
+    """
     type: str
-    id: int
+    uid: int
     name: str
 
     def __init__(self, r):
         self.type = 'Artist'
-        self.id = int(r['artistId'])
+        self.uid = int(r['artistId'])
         self.name = r['artistName']
 
     def __str__(self) -> str:
         return self.name
 
 
-class iTunesWrapper:
+class Wrapper:
+    """Represents an iTunes Wrapper.
+
+    Returns:
+        Wrapper -- An iTunes Wrapper object.
+    """
     type: str
+    uid: int
     genre: str
-    artist: iTunesArtist
+    artist: Artist
     name: str
-    releaseDate: dt
+    release_date: dt
 
     def __init__(self, r):
         self.type = r['wrapperType']
         self.genre = r['primaryGenreName']
-        self.artist = iTunesArtist(r)
-        self.releaseDate = dt.strptime(r['releaseDate'], '%Y-%m-%dT%H:%M:%SZ')
+        self.artist = Artist(r)
+        self.release_date = dt.strptime(r['releaseDate'], '%Y-%m-%dT%H:%M:%SZ')
+
+    def __str__(self):
+        return self.name
 
 
-class iTunesTrack(iTunesWrapper):
-    id: int
-    collectionId: int
+class Track(Wrapper):
+    """Represents an iTunes Track.
+
+    Returns:
+        Track -- An iTunes Track object.
+    """
+    collection_id: int
     time: int
-    releaseDate: dt
 
     def __init__(self, r):
-        iTunesWrapper.__init__(self, r)
+        Wrapper.__init__(self, r)
         self.type = 'Track'
-        self.id = int(r['trackId'])
-        self.collectionId = int(r['collectionId'])
+        self.uid = int(r['trackId'])
+        self.collection_id = int(r['collectionId'])
         self.time = int(r['trackTimeMillis'])
         self.name = r['trackName']
 
@@ -94,52 +110,82 @@ class iTunesTrack(iTunesWrapper):
         return self.name
 
 
-class iTunesCollection(iTunesWrapper):
-    id: int
-    trackCount: int
-    releaseDate: dt
+class Collection(Wrapper):
+    """Represents an iTunes Collection.
+
+    Returns:
+        Collection -- An iTunes Collection object.
+    """
+    track_count: int
 
     def __init__(self, r):
-        iTunesWrapper.__init__(self, r)
+        Wrapper.__init__(self, r)
         self.type = r['collectionType']
-        self.id = int(r['collectionId'])
+        self.uid = int(r['collectionId'])
         self.name = r['collectionName']
-        self.trackCount = int(r['trackCount'])
+        self.track_count = int(r['trackCount'])
 
     def __str__(self) -> str:
         return self.name
 
 
-parser = argparse.ArgumentParser(description='Search the iTunes store.')
-parser.add_argument('term', type=str, nargs='+',
+PARSER = argparse.ArgumentParser(description='Search the iTunes store.')
+PARSER.add_argument('term',
+                    type=str,
+                    nargs='+',
                     help='The URL-encoded text string you want to search for.')
-parser.add_argument('--country', type=str, nargs='?',
-                    help='The two-letter country code for the store you want to search. The search uses the default store front for the specified country.',
-                    default=DEFAULT_COUNTRY)
-parser.add_argument('--media', type=str, nargs='+',
+PARSER.add_argument(
+    '--country',
+    type=str,
+    nargs='?',
+    help=
+    'The two-letter country code for the store you want to search.',
+    default=DEFAULT_COUNTRY)
+PARSER.add_argument('--media',
+                    type=str,
+                    nargs='+',
                     help='The media type you want to search for.',
-                    choices=['movie', 'podcast', 'music', 'musicVideo', 'audiobook',
-                             'shortFilm', 'tvShow', 'software', 'ebook', 'all'],
+                    choices=[
+                        'movie', 'podcast', 'music', 'musicVideo', 'audiobook',
+                        'shortFilm', 'tvShow', 'software', 'ebook', 'all'
+                    ],
                     default=DEFAULT_MEDIA)
-parser.add_argument('--entity', type=str, nargs='+',
-                    help='The type of results you want returned, relative to the specified media type.',
-                    default=DEFAULT_ENTITY)
-parser.add_argument('--limit', type=int, nargs='?',
-                    help='The number of search results you want the iTunes Store to return.',
-                    choices=(range(1, 201)), default=DEFAULT_LIMIT)
-parser.add_argument('--lang', type=str, nargs='?',
-                    help='The language, English or Japanese, you want to use when returning search results. Specify the language using the five-letter codename.',
-                    choices=['en_us', 'ja_jp'], default=DEFAULT_LANG)
-parser.add_argument('--clean', action='store_true',
-                    help='A flag indicating whether or not you want to exclude explicit content in your search results.')
+PARSER.add_argument(
+    '--entity',
+    type=str,
+    nargs='+',
+    help=
+    'The type of results you want returned, relative to the specified media type.',
+    default=DEFAULT_ENTITY)
+PARSER.add_argument(
+    '--limit',
+    type=int,
+    nargs='?',
+    help='The number of search results you want the iTunes Store to return.',
+    choices=(range(1, 201)),
+    default=DEFAULT_LIMIT)
+PARSER.add_argument(
+    '--lang',
+    type=str,
+    nargs='?',
+    help=
+    'The language, English or Japanese, you want to use when returning search results.',
+    choices=['en_us', 'ja_jp'],
+    default=DEFAULT_LANG)
+PARSER.add_argument(
+    '--clean',
+    action='store_true',
+    help=
+    'A flag indicating whether or not you want to exclude explicit content in your search results.'
+)
 
 
-def build_request(args) -> requests.Request:
+def build_request(args: argparse.Namespace) -> requests.Request:
     """Builds the iTunes search request.
-    Conforming to https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
+    https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
 
     Arguments:
-        args {[type]} -- The arguments from argparse.
+        args {argparse.Namespace} -- The arguments from argparse.
 
     Returns:
         requests.Request -- The request to send.
@@ -155,8 +201,9 @@ def build_request(args) -> requests.Request:
         'lang': str(args.lang),
         'explicit': '0' if args.clean else '1'
     }
-    req: requests.Request = requests.Request(
-        'GET', 'https://itunes.apple.com/search', params=params)
+    req: requests.Request = requests.Request('GET',
+                                             'https://itunes.apple.com/search',
+                                             params=params)
     return req
 
 
@@ -169,10 +216,10 @@ def send_request(req: requests.Request) -> requests.Response:
     Returns:
         requests.Response -- The response from iTunes.
     """
-    with requests.Session() as s:
-        prep: requests.PreparedRequest = s.prepare_request(req)
-        res: requests.Response = s.send(prep)
-    return res
+    with requests.Session() as session:
+        prep: requests.PreparedRequest = session.prepare_request(req)
+        resp: requests.Response = session.send(prep)
+    return resp
 
 
 def cut_content(cont: str) -> str:
@@ -184,51 +231,51 @@ def cut_content(cont: str) -> str:
     Returns:
         str -- The cut contents of the response.
     """
-    STT: int = 13  # The starting index of the actual data.
-    END: int = -5  # The ending index of the actual data.
-    return cont[STT:END]
+    start: int = 13  # The starting index of the actual data.
+    stop: int = -5  # The ending index of the actual data.
+    return cont[start:stop]
 
 
-def print_result(w: Union[iTunesArtist, iTunesCollection, iTunesTrack]) -> None:
+def print_result(coll: Union[Artist, Collection, Track]) -> None:
     """Prints the search results.
 
     Arguments:
-        r {Dict[Any, Any]} -- The collection.
+        coll {Union[Artist, Collection, Track]} -- The collection.
     """
-    print(f'{w.type:{MAX_TYPE_LEN}}', end=SPACES)
-    print(f'{w.id:<{MAX_ID_LEN}}', end=SPACES)
-    if len(w.name) > MAX_NAME_LEN:
-        print(f'{w.name[:MAX_NAME_LEN]:{MAX_NAME_LEN}}', end='...   ')
+    print(f'{coll.type:{MAX_TYPE_LEN}}', end=SPACES)
+    print(f'{coll.id:<{MAX_ID_LEN}}', end=SPACES)
+    if len(coll.name) > MAX_NAME_LEN:
+        print(f'{coll.name[:MAX_NAME_LEN]:{MAX_NAME_LEN}}', end='...   ')
     else:
-        print(f'{w.name:{MAX_NAME_LEN}}', end=SPACES * 2)
-    if w.type != 'Artist':
-        if len(w.artist.name) > MAX_ARTIST_LEN:
-            print(
-                f'{w.artist.name[:MAX_ARTIST_LEN]:{MAX_ARTIST_LEN}}', end='...')
+        print(f'{coll.name:{MAX_NAME_LEN}}', end=SPACES * 2)
+    if coll.type != 'Artist':
+        if len(coll.artist.name) > MAX_ARTIST_LEN:
+            print(f'{coll.artist.name[:MAX_ARTIST_LEN]:{MAX_ARTIST_LEN}}',
+                  end='...')
         else:
-            print(f'{w.artist.name:{MAX_ARTIST_LEN}}', end=SPACES * 2)
+            print(f'{coll.artist.name:{MAX_ARTIST_LEN}}', end=SPACES * 2)
     print()
 
 
 if __name__ == '__main__':
-    args: argparse.Namespace = parser.parse_args()
-    req: requests.Request = build_request(args)
-    res: requests.Response = send_request(req)
+    ARGS: argparse.Namespace = PARSER.parse_args()
+    request: requests.Request = build_request(ARGS)
+    res: requests.Response = send_request(request)
     data: Dict[Any, Any] = json.loads(cut_content(res.content.decode('utf-8')))
 
     print(f'{"Type":{MAX_TYPE_LEN}}', end=SPACES)
     print(f'{"ID":{MAX_ID_LEN}}', end=SPACES)
-    print(f'{"Name":{MAX_NAME_LEN}}', end=SPACES*2)
+    print(f'{"Name":{MAX_NAME_LEN}}', end=SPACES * 2)
     print(f'{"Artist":{MAX_ARTIST_LEN}}')
     print('-' * 79)
-    for r in data['results']:
-        if r['wrapperType'] == 'collection':
-            w = iTunesCollection(r)
-        elif r['wrapperType'] == 'track':
-            w = iTunesTrack(r)
-        elif r['wrapperType'] == 'artist':
-            w = iTunesArtist(r)
+    for raw_ent in data['results']:
+        if raw_ent['wrapperType'] == 'collection':
+            entity = Collection(raw_ent)
+        elif raw_ent['wrapperType'] == 'track':
+            entity = Track(raw_ent)
+        elif raw_ent['wrapperType'] == 'artist':
+            entity = Artist(raw_ent)
         else:
             raise WrapperNotDefined(
-                f'"{r["wrapperType"]}" not a known wrapper type')
-        print_result(w)
+                f'"{raw_ent["wrapperType"]}" not a known wrapper type')
+        print_result(entity)

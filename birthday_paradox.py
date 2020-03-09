@@ -2,31 +2,29 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-07-18
-Revision : 2019-12-14
+Revision : 2020-03-08
 """
-
 
 from decimal import getcontext as setprec, Decimal
 from math import factorial as fct
-from typing import List
 
 
-def getPerc(p: int) -> Decimal:
+def get_percent(ppl: int) -> Decimal:
     """Will calculate the percent chance of matching birthdays.
 
     Args:
-        p (integer): The amount of people.
+        ppl (integer): The amount of people.
 
     Returns:
         float: The percent chance of a match.
 
     """
-    if(p > 365):
+    if ppl > 365:
         return Decimal(1 - 0)
-    fracTop: Decimal = Decimal(fct(365))
-    fracBot: Decimal = Decimal((365 ** p) * fct(365 - p))
+    frac_top: Decimal = Decimal(fct(365))
+    frac_bot: Decimal = Decimal((365**ppl) * fct(365 - ppl))
 
-    return 1 - Decimal(fracTop / fracBot)
+    return 1 - Decimal(frac_top / frac_bot)
 
 
 if __name__ == '__main__':
@@ -36,4 +34,4 @@ if __name__ == '__main__':
 
     setprec().prec = 1000
     r: int = randint(1, 360)
-    print(f'{r} People : {getPerc(r):0.4%}')
+    print(f'{r} People : {get_percent(r):0.4%}')

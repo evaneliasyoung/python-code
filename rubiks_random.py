@@ -2,7 +2,7 @@
 """
 Author   : Evan Elias Young
 Date     : 2018-02-10
-Revision : 2019-12-14
+Revision : 2020-03-08
 """
 
 import random
@@ -21,11 +21,11 @@ def randomize(steps: int = 20) -> List[str]:
     """
     moves: List[str] = ['R', 'L', 'B', 'D', 'F', 'U']
     que: List[str] = [random.choice(moves)]
-    for i in range(steps):
-        mv = que[-1]
-        while mv == que[-1]:
-            mv = random.choice(moves)
-        que.append(mv)
+    for _ in range(steps):
+        move = que[-1]
+        while move == que[-1]:
+            move = random.choice(moves)
+        que.append(move)
     return que
 
 

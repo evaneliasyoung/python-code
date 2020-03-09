@@ -2,9 +2,8 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-07-12
-Revision : 2019-12-12
+Revision : 2020-03-08
 """
-
 
 import tarfile
 import sys
@@ -13,45 +12,46 @@ from lzma import PRESET_EXTREME
 from typing import List
 
 
-def compressFolder(basedir: str, basename: str) -> None:
+def compress_folder(directory: str, name: str) -> None:
     """Compresses a folder to a .tar.xz.
 
     Args:
-        basedir (string): The basedir of the folder to compress.
-        basename (string): The basename of the folder to compress.
+        directory (string): The directory of the folder to compress.
+        name (string): The name of the folder to compress.
 
     """
-    os.chdir(basedir)
-    with tarfile.open(f'{basename}.tar.xz', 'w:xz', preset=PRESET_EXTREME) as tar:
-        tar.add(basename)
+    os.chdir(directory)
+    with tarfile.open(f'{name}.tar.xz', 'w:xz', preset=PRESET_EXTREME) as tar:
+        tar.add(name)
 
 
-def decompressTar(basedir: str, basename: str) -> None:
+def decompress_tar(directory: str, name: str) -> None:
     """Decompresses a .tar.xz to a folder.
 
     Args:
-        basedir (string): The basedir of the .tar.xz to expand.
-        basename (string): The basename of the .tar.xz to expand.
+        directory (string): The directory of the .tar.xz to expand.
+        name (string): The name of the .tar.xz to expand.
 
     """
-    basename = basename.replace('.tar.xz', '')
+    name = name.replace('.tar.xz', '')
 
-    os.chdir(basedir)
-    with tarfile.open(f'{basename}.tar.xz', 'r:xz') as tar:
+    os.chdir(directory)
+    with tarfile.open(f'{name}.tar.xz', 'r:xz') as tar:
         tar.extractall('.')
 
 
-args: List[str] = sys.argv[1:]
-if (len(args) == 0):
-    raise Exception('NOENT')
-else:
-    path = args[0]
+if __name__ == '__main__':
+    args: List[str] = sys.argv[1:]
+    if len(args) != 0:
+        path: str = args[0]
+    else:
+        raise Exception('NOENT')
 
-basedir: str = os.path.dirname(path)
-basename: str = os.path.basename(path)
+    base_dir: str = os.path.dirname(path)
+    base_name: str = os.path.basename(path)
 
-if (os.path.isdir(path)):
-    compressFolder(basedir, basename)
+    if os.path.isdir(path):
+        compress_folder(base_dir, base_name)
 
-if (os.path.isfile(path) and path.endswith('.tar.xz')):
-    decompressTar(basedir, basename)
+    if (os.path.isfile(path) and path.endswith('.tar.xz')):
+        decompress_tar(base_dir, base_name)

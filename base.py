@@ -2,9 +2,8 @@
 """
 Author   : Evan Elias Young
 Date     : 2018-07-12
-Revision : 2019-12-14
+Revision : 2020-03-08
 """
-
 
 from string import digits, ascii_letters
 base64: str = f'{digits}{ascii_letters}-_'
@@ -22,13 +21,13 @@ def decode(num: str, base: str = base64) -> int:
         integer: The Base10 encoded number.
 
     """
-    mx: int = len(base)
+    max_base: int = len(base)
     rev: str = num[::-1]
     val: int = 0
 
-    for i in range(0, len(rev)):
-        mult: int = mx ** i
-        val += base.index(rev[i]) * mult
+    for i in enumerate(rev):
+        mult: int = max_base**i[0]
+        val += base.index(rev[i[0]]) * mult
     return val
 
 
@@ -43,12 +42,12 @@ def encode(num: int, base: str = base64) -> str:
         string: The Base encoded number.
 
     """
-    mx: int = len(base)
+    max_base: int = len(base)
     val: str = ''
 
-    while(num > 0):
-        val += base[num % mx]
-        num //= mx
+    while num > 0:
+        val += base[num % max_base]
+        num //= max_base
     return val[::-1]
 
 

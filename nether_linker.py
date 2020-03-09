@@ -2,12 +2,10 @@
 """
 Author   : Evan Elias Young
 Date     : 2017-09-19
-Revision : 2020-01-08
+Revision : 2020-03-08
 """
 
-
 from typing import List
-
 
 if __name__ == '__main__':
     overWorld1: List[str] = input('Overworld Coordinates (x,z)\n').split(',')
@@ -22,6 +20,6 @@ if __name__ == '__main__':
         map(lambda a, b: int(a) + int(b), underWorld1, netherDiff))
 
     print(
-        f'\n\nMake the overworld portal at {overWorld2[0]}, y?, {overWorld2[1]}')
-    print(
-        f'Make the nether portal at {underWorld2[0]}, y?, {underWorld2[1]}')
+        f'\n\nMake the overworld portal at {overWorld2[0]}, y?, {overWorld2[1]}'
+    )
+    print(f'Make the nether portal at {underWorld2[0]}, y?, {underWorld2[1]}')
