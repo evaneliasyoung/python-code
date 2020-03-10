@@ -28,10 +28,7 @@ SPACES: str = ' ' * SPACES_NUM
 # The dots sand spaces between cut fields.
 DOTS: str = f'{"." * SPACES_NUM}{SPACES}'
 # The number of characters in each line.
-LINE_LENGTH: int = MAX_TYPE_LEN + MAX_ID_LEN + \
-    MAX_NAME_LEN + MAX_ARTIST_LEN + SPACES_NUM * 5
-# The max length for a menu.
-MAX_MENU_LEN: int = 27
+LINE_LENGTH: int = 79
 # The default for the country option.
 SEARCH_COUNTRY: str = 'US'
 # The default for the media option.
@@ -41,7 +38,7 @@ SEARCH_LIMIT: int = 10
 # The default for the lang option.
 SEARCH_LANG: str = 'en_us'
 # The iTules version
-VERSION: str = '0.1.0'
+VERSION: str = '0.1.1'
 
 
 class Artist:
@@ -342,14 +339,14 @@ def print_result(coll: Union[Artist, Album, Track]) -> None:
     print()
 
 
-def print_centered(text: str, width: int = MAX_MENU_LEN) -> None:
+def print_centered(text: str, width: int = LINE_LENGTH) -> None:
     """Prints text centered in the menus.
 
     Arguments:
         text {str} -- The text to print.
 
-    eyword Arguments:
-        width {int} -- The width of the container (default: {MAX_MENU_LEN})
+    Keyword Arguments:
+        width {int} -- The width of the container (default: {LINE_LENGTH})
     """
     print(f'{text:^{width}}')
 
@@ -393,15 +390,15 @@ def print_header() -> None:
     """Prints the main header for iTules.
     """
     clear()
-    print('  _ _______    _           ')
-    print(' (_)__   __|  | |          ')
-    print('  _   | |_   _| | ___  ___ ')
-    print(' | |  | | | | | |/ _ \\/ __|')
-    print(' | |  | | |_| | |  __/\\__ \\')
-    print(' |_|  |_|\\__,_|_|\\___||___/')
-    print('                           ')
-    print(f'      Version {VERSION}')
-    print(f'Copyright Evan Elias Young')
+    print_centered('  _ _______    _           ')
+    print_centered(' (_)__   __|  | |          ')
+    print_centered('  _   | |_   _| | ___  ___ ')
+    print_centered(' | |  | | | | | |/ _ \\/ __|')
+    print_centered(' | |  | | |_| | |  __/\\__ \\')
+    print_centered(' |_|  |_|\\__,_|_|\\___||___/')
+    print_centered('                           ')
+    print_centered(f'Version {VERSION}')
+    print_centered(f'Copyright Evan Elias Young')
     print()
 
 
@@ -428,7 +425,8 @@ def search_menu() -> None:
             print_header()
             print_centered(f'{choice.upper()} SEARCH MENU')
             search_term: str = input('enter your search term:\n')
-            entity_name: str = 'song,album,musicArtist' if choice == 'all' else 'musicArtist' if choice == 'artist' else choice
+            entity_name: str = 'song,album,musicArtist' if choice == 'all' else \
+                'musicArtist' if choice == 'artist' else choice
             search_results: List[Union[Artist, Album, Track]] = send_search(
                 search_term, entity_name)
             clear()
