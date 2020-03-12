@@ -344,7 +344,7 @@ def print_centered(text: str, width: int = LINE_LENGTH) -> None:
         text {str} -- The text to print.
 
     Keyword Arguments:
-        width {int} -- The width of the container. (default: {LINE_LENGTH})
+        width {int} -- The width of the container (default: {LINE_LENGTH})
     """
     print(f'{text:^{width}}')
 
