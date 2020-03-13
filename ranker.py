@@ -119,12 +119,11 @@ def main() -> None:
 
     # Sort the zip.
     sort = sort_scores(user_options, user_scores)
-    num_len: int = len(str(len(user_scores)))
-    score_len: int = max(len(str(e)) for e in user_scores)
 
+    print('Rank -- Top 50% -- Score -- Name')
     for i, opt in enumerate(sort):
         print(
-            f'{i + 1:{num_len}} -- {user_scores[user_options.index(opt)]:{score_len}} -- {opt}'
+            f'{i + 1:4} -- {("Y" if (len(user_options) - i) / len(user_options) > 0.5 else " "):^7} -- {user_scores[user_options.index(opt)]:5} -- {opt}'
         )
 
 
