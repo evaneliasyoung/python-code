@@ -1,18 +1,20 @@
-name: mypy
+name: Code Quality
 
 on: [push]
 
 jobs:
-  mypy:
+  build:
     runs-on: ubuntu-latest
+    name: Code Quality
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v2.4.0
     - name: Setup Python 3.10.2
       uses: actions/setup-python@v2.3.1
       with:
         python-version: 3.10.2
     - name: Install Dependencies
-      run: pip install -U pip mypy types-python-dateutil types-requests
+      run: pip install -U pip mypy types-python-dateutil types-requests black
     - name: Check Types
       run: mypy
+    - name: Check Format
+      run: black --diff --check $(git ls-files '*.py')
