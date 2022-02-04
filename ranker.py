@@ -82,7 +82,7 @@ def rank_ties(options: list[str], scores: list[int]) -> list[int]:
     return scores
 
 
-def sort_scores(options: list[str], scores: list[int]) -> list[int]:
+def sort_scores(options: list[str], scores: list[int]) -> list[str]:
     """Sorts the options into the final comparison.
 
     Arguments:
@@ -95,7 +95,7 @@ def sort_scores(options: list[str], scores: list[int]) -> list[int]:
     # Zip the scores and the options together.
     zipped_pairs: zip = zip(scores, options)
     # Sort the zip.
-    sort = reversed([e for _, e in sorted(zipped_pairs)])
+    sort = list(reversed([e for _, e in sorted(zipped_pairs)]))
     return sort
 
 

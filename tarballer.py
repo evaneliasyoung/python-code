@@ -24,7 +24,7 @@ def compress_folder(directory: str, name: str) -> None:
 
     """
     os.chdir(directory)
-    with tarfile.open(f"{name}.tar.xz", "w:xz", preset=PRESET_EXTREME) as tar:
+    with tarfile.open(f"{name}.tar.xz", "w:xz", preset=PRESET_EXTREME) as tar: # type: ignore
         tar.add(name)
 
 

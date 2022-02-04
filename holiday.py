@@ -28,6 +28,8 @@ DATA = SOUP.select(
 raw: str = DATA.decode()
 
 MATCH = re.search(r"<ul>.*<hr/>\n<br/>", raw, re.DOTALL)
+if not MATCH:
+    exit(1)
 SOUP = bs(raw[MATCH.start() : MATCH.end()], "html.parser")
 ALL_LINKS = SOUP.select("p > a")[0].parent.decode()
 DAYS: list[str] = ALL_LINKS.replace("</p>", "").replace("\n", "").split("<p>")
