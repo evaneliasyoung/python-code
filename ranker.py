@@ -9,8 +9,6 @@
 @copyright Copyright 2022 Evan Elias Young. All rights reserved.
 """
 
-from typing import List
-
 
 def get_total_rounds(num_options: int) -> int:
     """Determines the total rounds of ratings.
@@ -42,17 +40,17 @@ def get_better_option(opt1: str, opt2: str, ind1: int, ind2: int) -> int:
     return choice
 
 
-def rank_main(options: List[str]) -> List[int]:
+def rank_main(options: list[str]) -> list[int]:
     """Ranks the initial collection of options.
 
     Arguments:
-        options {List[str]} -- The options to rank.
+        options {list[str]} -- The options to rank.
 
     Returns:
-        List[int] -- The scores associated with each option.
+        list[int] -- The scores associated with each option.
     """
     # The points associated with each option.
-    scores: List[int] = [0] * len(options)
+    scores: list[int] = [0] * len(options)
 
     for i, opt1 in enumerate(options):
         for j, opt2 in enumerate(options):
@@ -63,15 +61,15 @@ def rank_main(options: List[str]) -> List[int]:
     return scores
 
 
-def rank_ties(options: List[str], scores: List[int]) -> List[int]:
+def rank_ties(options: list[str], scores: list[int]) -> list[int]:
     """Ranks the ties within the options.
 
     Arguments:
-        options {List[str]} -- The options to rank.
-        scores {List[int]} -- The scores associated with each option.
+        options {list[str]} -- The options to rank.
+        scores {list[int]} -- The scores associated with each option.
 
     Returns:
-        List[int] -- The new scores with no ties.
+        list[int] -- The new scores with no ties.
     """
     # While there are duplicate scores in the list.
     while list(set(scores)) != sorted(scores):
@@ -84,15 +82,15 @@ def rank_ties(options: List[str], scores: List[int]) -> List[int]:
     return scores
 
 
-def sort_scores(options: List[str], scores: List[int]) -> List[int]:
+def sort_scores(options: list[str], scores: list[int]) -> list[int]:
     """Sorts the options into the final comparison.
 
     Arguments:
-        options {List[str]} -- The options to rank.
-        scores {List[int]} -- The scores associated with each option.
+        options {list[str]} -- The options to rank.
+        scores {list[int]} -- The scores associated with each option.
 
     Returns:
-        List[int] -- The ranked items in order.
+        list[int] -- The ranked items in order.
     """
     # Zip the scores and the options together.
     zipped_pairs: zip = zip(scores, options)
@@ -104,7 +102,7 @@ def sort_scores(options: List[str], scores: List[int]) -> List[int]:
 def main() -> None:
     """The main of the program."""
     # The options to rank.
-    user_options: List[str] = []
+    user_options: list[str] = []
     while True:
         tmp: str = input("Option:\n")
         if tmp == "":
@@ -113,7 +111,7 @@ def main() -> None:
     print()
 
     # The points associated with each option.
-    user_scores: List[int] = rank_main(user_options)
+    user_scores: list[int] = rank_main(user_options)
     print()
     user_scores = rank_ties(user_options, user_scores)
     print()

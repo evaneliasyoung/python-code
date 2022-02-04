@@ -10,9 +10,8 @@
 """
 
 from string import ascii_lowercase as shorts
-from typing import List
 
-longs: List[str] = [
+longs: list[str] = [
     "Alpha",
     "Bravo",
     "Charlie",
@@ -52,7 +51,7 @@ def encode(string: str) -> str:
         string: The NATO speak.
 
     """
-    ret: List[str] = [longs[shorts.index(c)] for c in string.lower() if c in shorts]
+    ret: list[str] = [longs[shorts.index(c)] for c in string.lower() if c in shorts]
     return " ".join(ret)
 
 
@@ -66,7 +65,7 @@ def decode(string: str) -> str:
         string: The original string.
 
     """
-    ret: List[str] = [w[0] for w in string.split(" ")]
+    ret: list[str] = [w[0] for w in string.split(" ")]
     return "".join(ret)
 
 

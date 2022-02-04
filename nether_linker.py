@@ -9,16 +9,14 @@
 @copyright Copyright 2022 Evan Elias Young. All rights reserved.
 """
 
-from typing import List
-
 if __name__ == "__main__":
-    overWorld1: List[str] = input("Overworld Coordinates (x,z)\n").split(",")
-    underWorld1: List[str] = input("Nether Coordinates (x,z)\n").split(",")
-    overWorld2: List[str] = input("Desired Overworld Coordinates (x,z)\n").split(",")
+    overWorld1: list[str] = input("Overworld Coordinates (x,z)\n").split(",")
+    underWorld1: list[str] = input("Nether Coordinates (x,z)\n").split(",")
+    overWorld2: list[str] = input("Desired Overworld Coordinates (x,z)\n").split(",")
 
-    diff: List[int] = list(map(lambda a, b: int(b) - int(a), overWorld1, overWorld2))
-    netherDiff: List[int] = list(map(lambda e: e // 8, diff))
-    underWorld2: List[int] = list(
+    diff: list[int] = list(map(lambda a, b: int(b) - int(a), overWorld1, overWorld2))
+    netherDiff: list[int] = list(map(lambda e: e // 8, diff))
+    underWorld2: list[int] = list(
         map(lambda a, b: int(a) + int(b), underWorld1, netherDiff)
     )
 

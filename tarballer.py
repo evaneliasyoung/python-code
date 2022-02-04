@@ -13,7 +13,6 @@ import tarfile
 import sys
 import os
 from lzma import PRESET_EXTREME
-from typing import List
 
 
 def compress_folder(directory: str, name: str) -> None:
@@ -45,7 +44,7 @@ def decompress_tar(directory: str, name: str) -> None:
 
 
 if __name__ == "__main__":
-    args: List[str] = sys.argv[1:]
+    args: list[str] = sys.argv[1:]
     if len(args) != 0:
         path: str = args[0]
     else:

@@ -10,10 +10,9 @@
 """
 
 import itertools as ite
-from typing import List
 
 
-def parse_punnet(mat: str, pat: str) -> List[str]:
+def parse_punnet(mat: str, pat: str) -> list[str]:
     """Will parse a punnet square for two genomes.
 
     Args:
@@ -24,8 +23,8 @@ def parse_punnet(mat: str, pat: str) -> List[str]:
         List: The mixed alleles.
 
     """
-    raw: List[str] = ["".join(p) for p in ite.permutations(mat + pat, 2)]
-    out: List[str] = [
+    raw: list[str] = ["".join(p) for p in ite.permutations(mat + pat, 2)]
+    out: list[str] = [
         "".join(sorted(pair, key=lambda L: (L.lower(), L))) for pair in raw
     ]
     out.sort()

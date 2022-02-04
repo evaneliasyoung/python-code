@@ -15,7 +15,6 @@ import multiprocessing
 import argparse
 import time
 from threading import Thread
-from typing import List
 
 PARSER = argparse.ArgumentParser("Linpack", description="Benchmarks the cpu")
 PARSER.add_argument(
@@ -51,7 +50,7 @@ if __name__ == "__main__":
     RUNNING: bool = True
     total: int = 0
     que: queue.Queue = queue.Queue()
-    tasks: List[Thread] = [
+    tasks: list[Thread] = [
         Thread(target=lambda q: q.put(run_op()), args=(que,))
         for i in range(ARGS.threads)
     ]

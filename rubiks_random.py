@@ -10,10 +10,9 @@
 """
 
 import random
-from typing import List
 
 
-def randomize(steps: int = 20) -> List[str]:
+def randomize(steps: int = 20) -> list[str]:
     """Will generate a list of steps to randomize a cube.
 
     Args:
@@ -23,8 +22,8 @@ def randomize(steps: int = 20) -> List[str]:
         array: The list of steps to randomize the cube.
 
     """
-    moves: List[str] = ["R", "L", "B", "D", "F", "U"]
-    que: List[str] = [random.choice(moves)]
+    moves: list[str] = ["R", "L", "B", "D", "F", "U"]
+    que: list[str] = [random.choice(moves)]
     for _ in range(steps):
         move = que[-1]
         while move == que[-1]:

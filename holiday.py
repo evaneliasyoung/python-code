@@ -10,7 +10,6 @@
 """
 
 from calendar import month_name as months, monthrange as mran
-from typing import List
 import re
 from datetime import datetime as dt, timedelta
 import requests as req
@@ -31,10 +30,10 @@ raw: str = DATA.decode()
 MATCH = re.search(r"<ul>.*<hr/>\n<br/>", raw, re.DOTALL)
 SOUP = bs(raw[MATCH.start() : MATCH.end()], "html.parser")
 ALL_LINKS = SOUP.select("p > a")[0].parent.decode()
-DAYS: List[str] = ALL_LINKS.replace("</p>", "").replace("\n", "").split("<p>")
+DAYS: list[str] = ALL_LINKS.replace("</p>", "").replace("\n", "").split("<p>")
 DAYS = [d.strip() for d in DAYS]
 
-evnts: List[List[str]] = []
+evnts: list[list[str]] = []
 for i in range(32):
     evnts.append([])
 for d in DAYS:

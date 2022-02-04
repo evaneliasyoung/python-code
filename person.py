@@ -11,7 +11,6 @@
 
 import webbrowser as web
 from copy import deepcopy as copy
-from typing import List
 
 
 def open_browsers(raw: str, state: str = "Missouri") -> None:
@@ -22,12 +21,12 @@ def open_browsers(raw: str, state: str = "Missouri") -> None:
         state (string): The state of residence. Defaults to 'Missouri'.
 
     """
-    full: List[str] = raw.title().split(" ")
-    short: List[str] = copy(full)
+    full: list[str] = raw.title().split(" ")
+    short: list[str] = copy(full)
     if len(short) == 3:
         short.remove(short[1])
 
-    urls: List[str] = [
+    urls: list[str] = [
         f'https://www.spokeo.com/{"-".join(short)}/{state}',
         f'https://www.truepeoplesearch.com/results?name={"%20".join(full)}&citystatezip={state}',
         f'https://www.intelius.com/people-search/{"-".join(full)}/{state}',

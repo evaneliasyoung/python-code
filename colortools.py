@@ -10,7 +10,6 @@
 """
 
 import re
-from typing import List, Tuple
 
 
 class Color:
@@ -31,9 +30,9 @@ class Color:
         )
         self.is_rgb: bool = bool(re.match("(rgb)?\\(?(\\d+, ?){2}\\d+\\)?", self._raw))
         self.hex: str = self.get_hex()
-        self.rgb: Tuple[float, float, float] = self.get_rgb()
-        self.hsl: Tuple[float, float, float] = self.get_hsl()
-        self.hsv: Tuple[float, float, float] = self.get_hsv()
+        self.rgb: tuple[float, float, float] = self.get_rgb()
+        self.hsl: tuple[float, float, float] = self.get_hsl()
+        self.hsv: tuple[float, float, float] = self.get_hsv()
 
     def get_hex(self) -> str:
         """Will calculate the hex form.
@@ -54,7 +53,7 @@ class Color:
             long_hex = "".join([f"{int(d):02X}" for d in prgb])
         return long_hex
 
-    def get_rgb(self) -> Tuple[int, int, int]:
+    def get_rgb(self) -> tuple[int, int, int]:
         """Will calculate the rgb form.
 
         Returns:
@@ -67,14 +66,14 @@ class Color:
             int(self.hex[4:6], 16),
         )
 
-    def get_hsl(self) -> Tuple[float, float, float]:
+    def get_hsl(self) -> tuple[float, float, float]:
         """Will calculate the hsl form.
 
         Returns:
             list: The hue, saturation, and lightness values.
 
         """
-        tmp: List[float] = [p / 255 for p in self.rgb]
+        tmp: list[float] = [p / 255 for p in self.rgb]
         min_rgb: float = min(tmp)
         max_rgb: float = max(tmp)
         delta: float = max_rgb - min_rgb
@@ -100,14 +99,14 @@ class Color:
 
         return (hue, sat, light)
 
-    def get_hsv(self) -> Tuple[float, float, float]:
+    def get_hsv(self) -> tuple[float, float, float]:
         """Will calculate the hsv form.
 
         Returns:
             list: The hue, saturation, and value values.
 
         """
-        tmp: List[float] = [p / 255 for p in self.rgb]
+        tmp: list[float] = [p / 255 for p in self.rgb]
         min_rgb: float = min(tmp)
         max_rgb: float = max(tmp)
         delta: float = max_rgb - min_rgb

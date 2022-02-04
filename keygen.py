@@ -12,10 +12,9 @@
 import argparse
 import random
 from string import ascii_letters as asciiLetters
-from typing import List
 
-key: List[str] = []
-chars: List[str] = []
+key: list[str] = []
+chars: list[str] = []
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument(

@@ -10,19 +10,18 @@
 """
 
 from random import choice
-from typing import Tuple
 import requests as req
 from bs4 import BeautifulSoup as bs
 
 
-def get_fact(fact: int = -1) -> Tuple[int, str]:
+def get_fact(fact: int = -1) -> tuple[int, str]:
     """Will fetch a fact from a fact number.
 
     Args:
         fact {int}: The number of the fact. (default: {-1})
 
     Returns:
-        Tuple[int, str] -- The fact number and the fact.
+        tuple[int, str] -- The fact number and the fact.
     """
     res: req.Response = req.get("https://www.snapple.com/real-facts")
     soup: bs = bs(res.text, "html.parser")
