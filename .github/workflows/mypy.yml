@@ -8,14 +8,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2.4.0
-    - name: Setup Python 3.10
+    - name: Setup Python 3.10.2
       uses: actions/setup-python@v2.3.1
       with:
         python-version: 3.10.2
         cache: pip
+        architecture: x64
+    - name: Upgrade pip
+      run: pip install -U pip
     - name: Install Dependencies
-      run: |
-        pip install mypy
-    - name: mypy
-      run: |
-        mypy src/
+      run: pip install -U mypy
+    - name: Check Types
+      run: mypy
