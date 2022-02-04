@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """
-Author   : Evan Elias Young
-Date     : 2017-07-12
-Revision : 2020-03-08
+@file      tarballer.py
+@brief     Compresses a directory into a tarball.
+
+@author    Evan Elias Young
+@date      2017-07-12
+@date      2022-02-04
+@copyright Copyright 2022 Evan Elias Young. All rights reserved.
 """
 
 import tarfile
@@ -21,7 +25,7 @@ def compress_folder(directory: str, name: str) -> None:
 
     """
     os.chdir(directory)
-    with tarfile.open(f'{name}.tar.xz', 'w:xz', preset=PRESET_EXTREME) as tar:
+    with tarfile.open(f"{name}.tar.xz", "w:xz", preset=PRESET_EXTREME) as tar:
         tar.add(name)
 
 
@@ -33,19 +37,19 @@ def decompress_tar(directory: str, name: str) -> None:
         name (string): The name of the .tar.xz to expand.
 
     """
-    name = name.replace('.tar.xz', '')
+    name = name.replace(".tar.xz", "")
 
     os.chdir(directory)
-    with tarfile.open(f'{name}.tar.xz', 'r:xz') as tar:
-        tar.extractall('.')
+    with tarfile.open(f"{name}.tar.xz", "r:xz") as tar:
+        tar.extractall(".")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args: List[str] = sys.argv[1:]
     if len(args) != 0:
         path: str = args[0]
     else:
-        raise Exception('NOENT')
+        raise Exception("NOENT")
 
     base_dir: str = os.path.dirname(path)
     base_name: str = os.path.basename(path)
@@ -53,5 +57,5 @@ if __name__ == '__main__':
     if os.path.isdir(path):
         compress_folder(base_dir, base_name)
 
-    if (os.path.isfile(path) and path.endswith('.tar.xz')):
+    if os.path.isfile(path) and path.endswith(".tar.xz"):
         decompress_tar(base_dir, base_name)

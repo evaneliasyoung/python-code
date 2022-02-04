@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """
-Author   : Evan Elias Young
-Date     : 2016-11-28
-Revision : 2020-03-08
+@file      colortools.py
+@brief     Tools for colors.
+
+@author    Evan Elias Young
+@date      2016-11-28
+@date      2022-02-04
+@copyright Copyright 2022 Evan Elias Young. All rights reserved.
 """
 
 import re
@@ -15,13 +19,17 @@ class Color:
     Returns:
         Color -- A color object.
     """
+
     def __init__(self, color: str) -> None:
         self._raw: str = color
-        self.hex_type = 'full' if re.match(
-            '#?[0-9A-f]{6}', self._raw) else 'short' if re.match(
-                '^#?[0-9A-f]{3}$', self._raw) else 'none'
-        self.is_rgb: bool = bool(
-            re.match('(rgb)?\\(?(\\d+, ?){2}\\d+\\)?', self._raw))
+        self.hex_type = (
+            "full"
+            if re.match("#?[0-9A-f]{6}", self._raw)
+            else "short"
+            if re.match("^#?[0-9A-f]{3}$", self._raw)
+            else "none"
+        )
+        self.is_rgb: bool = bool(re.match("(rgb)?\\(?(\\d+, ?){2}\\d+\\)?", self._raw))
         self.hex: str = self.get_hex()
         self.rgb: Tuple[float, float, float] = self.get_rgb()
         self.hsl: Tuple[float, float, float] = self.get_hsl()
@@ -34,15 +42,16 @@ class Color:
             string: The long form hex color.
 
         """
-        long_hex: str = ''
-        if self.hex_type == 'full':
-            long_hex = self._raw.lstrip('#')
-        elif self.hex_type == 'short':
-            long_hex = ''.join([c * 2 for c in self._raw.lstrip('#')])
+        long_hex: str = ""
+        if self.hex_type == "full":
+            long_hex = self._raw.lstrip("#")
+        elif self.hex_type == "short":
+            long_hex = "".join([c * 2 for c in self._raw.lstrip("#")])
         else:
-            prgb = re.split('(?:rgb)?(?:\\()?(\\d+), ?(\\d+), ?(\\d+)(?:\\))?',
-                            self._raw)[1:4]
-            long_hex = ''.join([f'{int(d):02X}' for d in prgb])
+            prgb = re.split(
+                "(?:rgb)?(?:\\()?(\\d+), ?(\\d+), ?(\\d+)(?:\\))?", self._raw
+            )[1:4]
+            long_hex = "".join([f"{int(d):02X}" for d in prgb])
         return long_hex
 
     def get_rgb(self) -> Tuple[int, int, int]:
@@ -74,8 +83,11 @@ class Color:
         hue: float = 0
         sat: float = 0
         if max_rgb != min_rgb:
-            sat = delta / (2 - max_rgb - min_rgb) if light > 0.5 else delta / (
-                max_rgb + min_rgb)
+            sat = (
+                delta / (2 - max_rgb - min_rgb)
+                if light > 0.5
+                else delta / (max_rgb + min_rgb)
+            )
 
             if max_rgb == tmp[0]:
                 hue = (tmp[1] - tmp[2]) / delta + (6 if tmp[1] < tmp[2] else 0)
@@ -114,11 +126,11 @@ class Color:
         return (hue, sat, val)
 
 
-if __name__ == '__main__':
-    print('Hello Console!')
+if __name__ == "__main__":
+    print("Hello Console!")
 
-    fav: Color = Color('#003366')
-    print(f'hex : {fav.hex}')
-    print(f'rgb : {fav.rgb}')
-    print(f'hsl : {fav.hsl}')
-    print(f'hsv : {fav.hsv}')
+    fav: Color = Color("#003366")
+    print(f"hex : {fav.hex}")
+    print(f"rgb : {fav.rgb}")
+    print(f"hsl : {fav.hsl}")
+    print(f"hsv : {fav.hsv}")

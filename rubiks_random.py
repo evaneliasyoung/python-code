@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """
-Author   : Evan Elias Young
-Date     : 2018-02-10
-Revision : 2020-03-08
+@file      rubiks_random.py
+@brief     Generates moves to randomize a Rubiks cube.
+
+@author    Evan Elias Young
+@date      2018-02-10
+@date      2022-02-04
+@copyright Copyright 2022 Evan Elias Young. All rights reserved.
 """
 
 import random
@@ -19,7 +23,7 @@ def randomize(steps: int = 20) -> List[str]:
         array: The list of steps to randomize the cube.
 
     """
-    moves: List[str] = ['R', 'L', 'B', 'D', 'F', 'U']
+    moves: List[str] = ["R", "L", "B", "D", "F", "U"]
     que: List[str] = [random.choice(moves)]
     for _ in range(steps):
         move = que[-1]
@@ -29,7 +33,7 @@ def randomize(steps: int = 20) -> List[str]:
     return que
 
 
-if __name__ == '__main__':
-    print('Hello Console!')
+if __name__ == "__main__":
+    print("Hello Console!")
 
-    print(' '.join(randomize()))
+    print(" ".join(randomize()))

@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """
-Author   : Evan Elias Young
-Date     : 2020-03-13
-Revision : 2020-03-13
+@file      ranker.py
+@brief     Ranking program.
+
+@author    Evan Elias Young
+@date      2020-03-13
+@date      2022-02-04
+@copyright Copyright 2022 Evan Elias Young. All rights reserved.
 """
 
 from typing import List
@@ -32,10 +36,9 @@ def get_better_option(opt1: str, opt2: str, ind1: int, ind2: int) -> int:
     Returns:
         int -- The index of the bettwe option.
     """
-    print(f'{ind1 + 1:2} -- {opt1}')
-    print(f'{ind2 + 1:2} -- {opt2}')
-    choice: int = int(
-        input(f'Which is better {ind1 + 1} or {ind2 + 1}:\n')) - 1
+    print(f"{ind1 + 1:2} -- {opt1}")
+    print(f"{ind2 + 1:2} -- {opt2}")
+    choice: int = int(input(f"Which is better {ind1 + 1} or {ind2 + 1}:\n")) - 1
     return choice
 
 
@@ -76,8 +79,7 @@ def rank_ties(options: List[str], scores: List[int]) -> List[int]:
             for j, score2 in enumerate(scores):
                 # If the options are not the same and have the same score.
                 if i != j and score1 == score2:
-                    choice: int = get_better_option(options[i], options[j], i,
-                                                    j)
+                    choice: int = get_better_option(options[i], options[j], i, j)
                     scores[choice] += 1
     return scores
 
@@ -100,13 +102,12 @@ def sort_scores(options: List[str], scores: List[int]) -> List[int]:
 
 
 def main() -> None:
-    """The main of the program.
-    """
+    """The main of the program."""
     # The options to rank.
     user_options: List[str] = []
     while True:
-        tmp: str = input('Option:\n')
-        if tmp == '':
+        tmp: str = input("Option:\n")
+        if tmp == "":
             break
         user_options.append(tmp)
     print()
@@ -120,7 +121,7 @@ def main() -> None:
     # Sort the zip.
     sort = sort_scores(user_options, user_scores)
 
-    print('Rank -- Top 50% -- Score -- Name')
+    print("Rank -- Top 50% -- Score -- Name")
     for i, opt in enumerate(sort):
         print(
             f'{i + 1:4} -- {("Y" if (len(user_options) - i) / len(user_options) > 0.5 else " "):^7} -- {user_scores[user_options.index(opt)]:5} -- {opt}'
@@ -128,7 +129,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    print('Hello, Console!')
+    print("Hello, Console!")
     print()
 
     main()

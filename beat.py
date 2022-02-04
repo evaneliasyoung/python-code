@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """
-Author   : Evan Elias Young
-Date     : 2016-07-30
-Revision : 2020-03-08
+@file      beat.py
+@brief     Claculates internet beat time.
+
+@author    Evan Elias Young
+@date      2016-07-30
+@date      2022-02-04
+@copyright Copyright 2022 Evan Elias Young. All rights reserved.
 """
 
 from datetime import datetime as dt
@@ -16,7 +20,7 @@ def __init__() -> float:
     return beats
 
 
-if __name__ == '__main__':
-    print('Hello Console!')
+if __name__ == "__main__":
+    print("Hello Console!")
 
-    print(f'@{__init__():.0f}')
+    print(f"@{__init__():.0f}")
