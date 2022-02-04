@@ -25,7 +25,7 @@ def get_percent(ppl: int) -> Decimal:
     if ppl > 365:
         return Decimal(1 - 0)
     frac_top: Decimal = Decimal(fct(365))
-    frac_bot: Decimal = Decimal((365 ** ppl) * fct(365 - ppl))
+    frac_bot: Decimal = Decimal((365**ppl) * fct(365 - ppl))
 
     return 1 - Decimal(frac_top / frac_bot)
 
