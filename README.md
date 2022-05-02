@@ -7,5 +7,5 @@ Just some random python files I've made over the years; having multiple computer
 
 [gpy-image]: https://img.shields.io/badge/code%20style-google-brightgreen.svg
 [gpy-url]: http://google.github.io/styleguide/pyguide.html
-[gitmoji-image]: https://img.shields.io/badge/gitmoji-%20≡ƒÿ£%20≡ƒÿì-FFDD67.svg
+[gitmoji-image]: https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg
 [gitmoji-url]: https://gitmoji.dev
